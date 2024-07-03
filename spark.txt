@@ -1,0 +1,29 @@
+wget https://downloads.apache.org/spark/spark-3.1.2/spark-3.1.2-bin-hadoop2.7.tgz
+tar xzf spark-3.1.2-bin-hadoop2.7.tgz
+
+
+Edit .bashrc file
+========================
+sudo nano .bashrc
+export SPARK_HOME=/home/hadoop/spark-3.1.2-bin-hadoop2.7
+
+export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
+source ~/.bashrc
+
+
+scala downloads
+=========================
+wget https://downloads.lightbend.com/scala/2.11.8/scala-2.11.8.deb
+sudo dpkg -i scala-2.11.8.deb
+
+intellij downloads
+=======================
+snap find "intellij"
+
+sudo snap install intellij-idea-community --classic
+
+kagfka install
+========================
+wget https://downloads.apache.org/kafka/2.8.0/kafka_2.13-2.8.0.tgz
+bin/zookeeper-server-start.sh config/zookeeper.properties
+bin/kafka-server-start.sh config/server.properties

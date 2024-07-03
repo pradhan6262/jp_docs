@@ -1,0 +1,61 @@
+.
+Steps for hive installation
+•	Download and Unzip Hive
+•	Edit .bashrc file
+•	Edit hive-config.sh file
+•	Create Hive directories in HDFS
+•	Initiate Derby database
+•	Configure hive-site.xml file
+
+download and unzip Hive
+=============================
+wget https://downloads.apache.org/hive/hive-3.1.2/apache-hive-3.1.2-bin.tar.gz
+tar xzf apache-hive-3.1.2-bin.tar.gz
+
+Edit .bashrc file
+========================
+sudo nano .bashrc
+export HIVE_HOME= /home/hadoop/apache-hive-3.1.2-bin
+
+export PATH=$PATH:$HIVE_HOME/bin
+source ~/.bashrc
+Edit hive-config.sh file
+====================================
+sudo nano $HIVE_HOME/bin/hive-config.sh
+export HADOOP_HOME=/home/hadoop/hadoop-3.2.2
+Create Hive directories in HDFS
+===================================
+hdfs dfs -mkdir /tmp
+hdfs dfs -chmod g+w /tmp
+hdfs dfs -mkdir -p /user/hive/warehouse
+hdfs dfs -chmod g+w /user/hive/warehouse
+
+Fixing guava problem – Additional step
+=================
+
+rm $HIVE_HOME/lib/guava-19.0.jar
+cp $HADOOP_HOME/share/hadoop/hdfs/lib/guava-27.0-jre.jar $HIVE_HOME/lib/
+
+Initialize Derby and hive
+============================
+schematool -initSchema -dbType derby
+schematool -initSchema -dbType mysql 
+
+hive
+
+optional Step – Edit hive-site.xml
+===========
+cd $HIVE_HOME/conf
+cp hive-default.xml.template hive-site.xml
+sudo nano hive-site.xml – change metastore location to above created hdfs path(/user/hive/warehouse)
+
+CREATE USER 'hadoop'@'10.0.2.15' IDENTIFIED BY 'Jeet#2733';
+CREATE USER 'hadoop'@'localhost' IDENTIFIED BY 'Jeet#2733';
+
+CREATE USER hadoop@10.0.2.15 IDENTIFIED BY jeet@2733;
+
+GRANT ALL PRIVILEGES ON *.* TO 'hadoop'@'10.0.2.15';
+GRANT ALL PRIVILEGES ON *.* TO 'hadoop'@'localhost';
+10.0.2.15
+
+hive --service metastore
